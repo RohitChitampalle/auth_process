@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "../main.css"
 import { MdEmail } from "react-icons/md";
 import { MdLock } from "react-icons/md";
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 function Login() {
+  const { user, loginWithRedirect } = useAuth0()
+  let [userData,setUserData]=useState({
+    email:"",
+    password:""
+  })
+
+  let handleChange=(e)=>{
+  let name=e.target.name;
+  let value=e.target.value;
+
+  setUserData({...userData,[name]:value})
+
+
+}
+  console.log(userData)
+
   return (
     <>
       <div>
@@ -13,22 +31,28 @@ function Login() {
       <section>
         <div>
           <MdEmail />
-          <input type="email" name="email" id="" placeholder='Email id' />
+          <input onChange={handleChange} value={userData.email} type="email" name="email" id="email" placeholder='Email id' />
         </div>
         <div>
           <MdLock />
-          <input type="password" name="password" id="" placeholder='password' />
+          <input onChange={handleChange} value={userData.password} type="password" name="password" id="password" placeholder='password' />
         </div>
 
         <div>
-          <input type="checkbox" name='checkbox' /> <span>keep me logged in</span>
+          <input  onChange={handleChange}  type="checkbox" name='checkbox' /> <span>keep me logged in</span>
         </div>
         <div className='btn-container'>
           <button>Login</button>
-          <button>Continue with Google</button>
+          <button onClick={(e) => loginWithRedirect()}>
+                      Continue with Google
+
+                  </button>
+         
 
         </div>
       </section>
+
+
 
     </>
     )

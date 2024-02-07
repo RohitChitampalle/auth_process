@@ -1,14 +1,16 @@
-
-import './App.css';
-// import Login from './components/auth/Login';
-import SignUp from './components/auth/SignUp';
-
+import {RouterProvider} from "react-router-dom";
+import React from 'react'
+import router from "./Routes/routes";
+import {useAuth0} from "@auth0/auth0-react"
 
 function App() {
-  return (
+
+  return ( 
     <>
-    <SignUp/>
-     {/* <Login/> */}
+ < RouterProvider router = {
+   router
+ }
+ />
     </>
   );
 }

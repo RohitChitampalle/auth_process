@@ -1,38 +1,65 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdEmail } from "react-icons/md";
 import { MdLock } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+// import { useAuth0 } from "@auth0/auth0-react";
 
 function SignUp() {
+let [records,setRecords]=useState()
+let [userData,setUserData]=useState({
+    username:"",
+    email:"",
+    password:"",
+    verify_password:"" 
+})
+
+let handleChange=(e)=>{
+    let name= e.target.name;
+    let value=e.target.value
+console.log([name])
+setUserData({...userData,[name]:value})
+}
+
+    let handleSubmit=(e)=>{
+        e.preventDefault();
+        // const newRecords={...userData}
+        // setRecords([...records,newRecords])
+     
+    }
+console.log("user data",userData)
+//   console.log("record",records)
   return (
       <>
           <div>
               sign up
           </div>
 
-          <section>
+          <form action="" onSubmit={handleSubmit}>
               <div>
                   <FaUserAlt />
-                  <input type="name" name="username" id="" placeholder='Name' />
+                  <input onChange={handleChange} value={userData.username} type="name" name="username" id="" placeholder='Name' />
               </div>
               <div>
                   <MdEmail />
-                  <input type="email" name="email" id="" placeholder='Email id' />
+                  <input  onChange={handleChange}   value={userData.email} type="email" name="email" id="" placeholder='Email id' />
               </div>
               <div>
                   <MdLock />
-                  <input type="password" name="password" id="" placeholder='password' />
+                  <input  onChange={handleChange}   value={userData.password} type="password" name="password" id="" placeholder='password' />
               </div>
 
               <div>
                   <MdLock />
-                  <input type="password" name='checkbox' id='' placeholder='Confirm Password'/> 
+                  <input onChange={handleChange} value={userData.verify_password} type="password" name='verify_password' id='verify_password' placeholder='Confirm Password'/> 
               </div>
               <div className='btn-container'>
                   <button>signup</button>
+                  <button><Link to={"/login"}>Login</Link></button>
+
 
               </div>
-          </section>
+          </form>
 
       </>
   )
