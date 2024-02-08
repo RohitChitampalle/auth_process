@@ -48,7 +48,7 @@ let setUsers = (req, res) => {
     try {
         let data = req.body;
 
-        let query = ` INSERT INTO sign_up (first_name,last_name, email,password,verify_passwor) 
+        let query = ` INSERT INTO sign_up (first_name,last_name, email,password,verify_password) 
         VALUES("${data.first_name}", "${data.last_name}", "${data.email}", "${data.password}" , "${data.verify_password}")
         `
         connection.query(query, (err, results) => {
@@ -98,9 +98,33 @@ let handleUserDeleteById = (req, res) => {
 
 }
 
+
+let handleGetAllBookList=()=>{
+     try {
+         let query = 'select * from Book_Store;'
+         connection.query(query, (err, results) => {
+             if (err) {
+                 console.error('Error querying database:', err);
+                 return;
+             }
+             //    console.log('Query results:', results);
+             return res.status(201).json(results)
+         });
+
+     } catch (error) {
+         // console.log()
+         return res.status(501).json([{
+             "Error Name": error.name,
+             "Error Message": error.message
+         }])
+     }
+
+}
+
 module.exports = {
     handleGetAllUsers,
     handleGetUserById,
     setUsers,
-    handleUserDeleteById
+    handleUserDeleteById,
+    handleGetAllBookList
 }

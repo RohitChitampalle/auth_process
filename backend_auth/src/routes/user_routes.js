@@ -4,9 +4,10 @@ const {
     handleGetAllUsers,
     handleGetUserById,
     setUsers,
-    handleUserDeleteById
+    handleUserDeleteById,
+    handleGetAllBookList
 } = require("../controllers/user")
 
 router.get("/", handleGetAllUsers).get("/:id", handleGetUserById).delete("/:id", handleUserDeleteById)
-router.post("/set", setUsers)
+router.post("/set", setUsers).get("/book_list",handleGetAllBookList)
 module.exports = router;
