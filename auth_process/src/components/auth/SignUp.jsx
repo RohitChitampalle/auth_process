@@ -35,7 +35,7 @@ setUserData({...userData,[name]:value})
             for (const key in formData) {
                 formData.append(key, userData[key]);
             }
-            const response = await axios.post('http://localhost:8010/api/user/set', userData);
+            const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/user/set`, userData);
             console.log('Response:', response.data);
         } catch (error) {
             console.error('Error:', error);
