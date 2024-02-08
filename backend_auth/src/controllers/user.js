@@ -6,7 +6,9 @@ let handleGetAllUsers = (req, res) => {
         connection.query(query, (err, results) => {
             if (err) {
                 console.error('Error querying database:', err);
-                return;
+                return res.status(501).json([{
+                    "Error": err.sqlMessage
+                }]);;
             }
             //    console.log('Query results:', results);
             return res.status(201).json(results)
@@ -29,7 +31,9 @@ let handleGetUserById = (req, res) => {
         connection.query(query, (err, results) => {
             if (err) {
                 console.error('Error querying database:', err);
-                return;
+                return res.status(501).json([{
+                    "Error": err.sqlMessage
+                }]);;
             }
             //    console.log('Query results:', results);
             return res.status(201).json(results)
@@ -82,7 +86,9 @@ let handleUserDeleteById = (req, res) => {
         connection.query(query, (err, results) => {
             if (err) {
                 console.error('Error querying database:', err);
-                return;
+                return res.status(501).json([{
+                    "Error": err.sqlMessage
+                }]);;
             }
             //    console.log('Query results:', results);
             return res.status(201).json({
@@ -108,7 +114,9 @@ let handleGetAllBookList=()=>{
          connection.query(query, (err, results) => {
              if (err) {
                  console.error('Error querying database:', err);
-                 return;
+                 return res.status(501).json([{
+                     "Error": err.sqlMessage
+                 }]);
              }
              //    console.log('Query results:', results);
              return res.status(201).json(results)
