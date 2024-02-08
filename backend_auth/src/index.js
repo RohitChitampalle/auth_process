@@ -12,11 +12,7 @@ const connection = require("./models/index");
 
 //routes
 const UserRouter = require("./routes/user_routes")
-
-// log file
-// const {
-//     logFunction
-// } = require("./middlewares/index")
+const bookRouter=require("./routes/book")
 
 const app = express()
 
@@ -28,11 +24,13 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-//Middleware
-// app.use(logFunction("log.txt"))
+
+
 
 //Routes
 app.use("/api/user/", UserRouter)
+app.use("/api/book/", bookRouter)
+ 
 
 app.listen(port, () => {
     console.log(`server is running on ${port}`)

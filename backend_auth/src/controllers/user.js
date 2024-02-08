@@ -47,12 +47,11 @@ let handleGetUserById = (req, res) => {
 
 
 }
-
 let setUsers = (req, res) => {
     try {
         let data = req.body;
 
-        
+
         //change is column name closed/08-02-2024.
 
         let query = ` INSERT INTO sign_up (first_name,last_name, email,password,verify_password) 
@@ -78,6 +77,7 @@ let setUsers = (req, res) => {
         }]
     }
 }
+
 let handleUserDeleteById = (req, res) => {
     try {
 
@@ -107,35 +107,11 @@ let handleUserDeleteById = (req, res) => {
 
 }
 
-//changes in book list api
-let handleGetAllBookList=(req,res)=>{
-     try {
-         let query = 'select * from Book_Store;'
-         connection.query(query, (err, results) => {
-             if (err) {
-                 console.error('Error querying database:', err);
-                 return res.status(501).json([{
-                     "Error": err.sqlMessage
-                 }]);
-             }
-             //    console.log('Query results:', results);
-             return res.status(201).json(results)
-         });
 
-     } catch (error) {
-         // console.log()
-         return res.status(501).json([{
-             "Error Name": error.name,
-             "Error Message": error.message
-         }])
-     }
-
-}
 
 module.exports = {
     handleGetAllUsers,
     handleGetUserById,
-    setUsers,
     handleUserDeleteById,
-    handleGetAllBookList
+    setUsers
 }
