@@ -8,6 +8,7 @@ const {
     handleGetAllBookList
 } = require("../controllers/user")
 
-router.get("/", handleGetAllUsers).get("/:id", handleGetUserById).delete("/:id", handleUserDeleteById)
-router.post("/set", setUsers).get("/book_list",handleGetAllBookList)
+router.get("/", handleGetAllUsers).get("/book_list", handleGetAllBookList).get("/:id", handleGetUserById).delete("/:id", handleUserDeleteById)
+router.post("/set", setUsers)
+
 module.exports = router;

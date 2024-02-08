@@ -108,7 +108,7 @@ let handleUserDeleteById = (req, res) => {
 }
 
 
-let handleGetAllBookList=()=>{
+let handleGetAllBookList=(req,res)=>{
      try {
          let query = 'select * from Book_Store;'
          connection.query(query, (err, results) => {
