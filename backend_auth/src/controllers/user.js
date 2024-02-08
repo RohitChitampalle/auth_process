@@ -47,8 +47,9 @@ let handleGetUserById = (req, res) => {
 let setUsers = (req, res) => {
     try {
         let data = req.body;
-
-        let query = ` INSERT INTO sign_up (first_name,last_name, email,password,verify_passwor) 
+        
+        //change is column name closed/08-02-2024.
+        let query = ` INSERT INTO sign_up (first_name,last_name, email,password,verify_password) 
         VALUES("${data.first_name}", "${data.last_name}", "${data.email}", "${data.password}" , "${data.verify_password}")
         `
         connection.query(query, (err, results) => {
