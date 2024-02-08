@@ -26,7 +26,7 @@ let handleGetAllUsers = (req, res) => {
 
 let handleGetUserById = (req, res) => {
     try {
-        let id = req.params.id;
+        let id = req.query.id;
         let query = `SELECT * FROM Persons WHERE PersonID = ${id}`
         connection.query(query, (err, results) => {
             if (err) {
@@ -54,8 +54,8 @@ let setUsers = (req, res) => {
 
         //change is column name closed/08-02-2024.
 
-        let query = ` INSERT INTO sign_up (first_name,last_name, email,password,verify_password) 
-        VALUES("${data.first_name}", "${data.last_name}", "${data.email}", "${data.password}" , "${data.verify_password}")
+        let query = ` INSERT INTO sign_up (username, email,password,verify_password) 
+        VALUES("${data.username}","${data.email}", "${data.password}" , "${data.verify_password}")
         `
         connection.query(query, (err, results) => {
             if (err) {
@@ -76,6 +76,30 @@ let setUsers = (req, res) => {
             "Error": error
         }]
     }
+}
+
+let userLogin=(req,res)=>{
+      try {
+
+          let username=req.query.username
+          let password = req.query.password
+          let query = ` SELECT id FROM sign_up where email ="${username}" and password ="${password}";`
+          connection.query(query, (err, results) => {
+              if (err) {
+                  return res.status(501).json([{
+                      "Error": err.sqlMessage
+                  }]);;
+              }
+              //    console.log('Query results:', results);
+              return res.status(201).json(results)
+          });
+
+
+      } catch (error) {
+          return [{
+              "Error": error
+          }]
+      }
 }
 
 let handleUserDeleteById = (req, res) => {
@@ -113,5 +137,6 @@ module.exports = {
     handleGetAllUsers,
     handleGetUserById,
     handleUserDeleteById,
-    setUsers
+    setUsers,
+    userLogin
 }

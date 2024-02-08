@@ -39,10 +39,12 @@ function SignUp() {
             else{
                 setState(true)
                 let formData = new FormData()
-                for (const key in formData) {
-                    formData.append(key, userData[key]);
-                }
-                const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/user/set`, userData);
+                formData.append("username",username)
+                formData.append("email", email)
+                formData.append("password", password)
+                formData.append("verify_password", verify_password)
+
+                const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/user/set`, formData);
                 console.log('Response:', response.data);
             }
         } catch (error) {

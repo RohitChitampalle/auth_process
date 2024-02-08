@@ -4,7 +4,6 @@ const dotenv = require('dotenv')
 
 const port = 8011;
 
-const bodyParser = require("body-parser")
 //db connection 
 
 dotenv.config();
@@ -19,10 +18,6 @@ const app = express()
 //Middleware - Plugin
 // app.use(formidable());
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({
-    extended: true
-}));
 
 
 
