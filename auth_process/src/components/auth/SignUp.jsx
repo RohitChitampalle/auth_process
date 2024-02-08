@@ -4,6 +4,7 @@ import { MdLock } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 // import { useAuth0 } from "@auth0/auth0-react";
+import axios from 'axios';
 
 function SignUp() {
 let [records,setRecords]=useState()
@@ -26,6 +27,19 @@ setUserData({...userData,[name]:value})
         // const newRecords={...userData}
         // setRecords([...records,newRecords])
      
+    }
+
+    let postData=async ()=>{
+        try {
+            let formData=new FormData()
+            for (const key in formData) {
+                formData.append(key, userData[key]);
+            }
+            const response = await axios.post('http://localhost:8010/api/user/set', userData);
+            console.log('Response:', response.data);
+        } catch (error) {
+            console.error('Error:', error);
+        }  
     }
 console.log("user data",userData)
 //   console.log("record",records)
@@ -55,7 +69,7 @@ console.log("user data",userData)
               </div>
               <div className='btn-container'>
                   <button>signup</button>
-                  <button><Link to={"/login"}>Login</Link></button>
+                  <button onClick={postData}><Link to={"/login"}>Login</Link></button>
 
 
               </div>

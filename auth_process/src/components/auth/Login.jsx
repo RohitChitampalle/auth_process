@@ -3,13 +3,16 @@ import "../main.css"
 import { MdEmail } from "react-icons/md";
 import { MdLock } from "react-icons/md";
 import { useAuth0 } from '@auth0/auth0-react';
+import { FaUserAlt } from 'react-icons/fa';
+
 
 
 function Login() {
   const { user, loginWithRedirect } = useAuth0()
   let [userData,setUserData]=useState({
     email:"",
-    password:""
+    password:"",
+    user_id:""
   })
 
   let handleChange=(e)=>{
@@ -36,6 +39,11 @@ function Login() {
         <div>
           <MdLock />
           <input onChange={handleChange} value={userData.password} type="password" name="password" id="password" placeholder='password' />
+        </div>
+
+        <div>
+          <FaUserAlt />
+          <input onChange={handleChange} value={userData.user_id} type="textd" name="user_id" id="user_id" placeholder='user id' />
         </div>
 
         <div>
