@@ -1,6 +1,10 @@
 const express=require('express');
 
-const { handleGetAllBookList, handleSetBooks, handleGetBooksById } = require('../controllers/books');
+const {
+    handleGetAllBookList,
+    handleSetBooks,
+    handleGetBooksById
+} = require('../controllers/books');
 const upload = require('../middlewares/upload_mutler');
 
 const router =express.Router();
