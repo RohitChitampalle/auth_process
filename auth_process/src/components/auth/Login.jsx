@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 
 function Login() {
   let [state, setState] = useState(false)
+  let [data,setData]=useState()
   // const { user, loginWithRedirect } = useAuth0()
   let [userData,setUserData]=useState({
     username:"",
@@ -41,6 +42,7 @@ function Login() {
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/user/login?username=${username}&password=${password}`);
 
         console.log('Response:', response.data);
+        setData(response.data[0])
         
       }
     } catch (error) {
@@ -69,13 +71,11 @@ function Login() {
           <input  onChange={handleChange}  type="checkbox" name='checkbox' /> <span>keep me logged in</span>
         </div>
         <div className='btn-container'>
-          <button onClick={postData}><Link >Log in</Link></button>
+          <button onClick={postData}><Link to={state === true ? `/user/bookList/${data.id}` : "/login" }>Log in</Link></button>
           {/* <button onClick={(e) => loginWithRedirect()}>
                       Continue with Google
 
                   </button> */}
-         
-
         </div>
       </section>
 
