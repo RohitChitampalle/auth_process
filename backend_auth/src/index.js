@@ -4,7 +4,6 @@ const dotenv = require('dotenv')
 
 const port = 8011;
 
-const bodyParser = require("body-parser")
 //db connection 
 
 dotenv.config();
@@ -12,27 +11,21 @@ const connection = require("./models/index");
 
 //routes
 const UserRouter = require("./routes/user_routes")
-
-// log file
-// const {
-//     logFunction
-// } = require("./middlewares/index")
+const bookRouter=require("./routes/book")
 
 const app = express()
 
 //Middleware - Plugin
 // app.use(formidable());
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({
-    extended: true
-}));
 
-//Middleware
-// app.use(logFunction("log.txt"))
+
+
 
 //Routes
 app.use("/api/user/", UserRouter)
+app.use("/api/book/", bookRouter)
+ 
 
 app.listen(port, () => {
     console.log(`server is running on ${port}`)

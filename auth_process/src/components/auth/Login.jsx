@@ -2,17 +2,19 @@ import React, { useState } from 'react'
 import "../main.css"
 import { MdEmail } from "react-icons/md";
 import { MdLock } from "react-icons/md";
-import { useAuth0 } from '@auth0/auth0-react';
+// import { useAuth0 } from '@auth0/auth0-react';
 import { FaUserAlt } from 'react-icons/fa';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 
 function Login() {
-  const { user, loginWithRedirect } = useAuth0()
+  let [state, setState] = useState(false)
+  // const { user, loginWithRedirect } = useAuth0()
   let [userData,setUserData]=useState({
-    email:"",
+    username:"",
     password:"",
-    user_id:""
   })
 
   let handleChange=(e)=>{
@@ -23,6 +25,28 @@ function Login() {
 
 
 }
+
+  let postData = async () => {
+    try {
+      let { username, password } = userData
+      if (username === "" && password === "") {
+        alert("Please enter username & password")
+      }
+      else {
+        setState(true)
+        let formData = new FormData()
+        formData.append("username",username)
+        formData.append("password",password)
+        // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/user/login?username=${username}&password=${password}`);
+
+        console.log('Response:', response.data);
+        
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
   console.log(userData)
 
   return (
@@ -34,7 +58,7 @@ function Login() {
       <section>
         <div>
           <MdEmail />
-          <input onChange={handleChange} value={userData.email} type="email" name="email" id="email" placeholder='Email id' />
+          <input onChange={handleChange} value={userData.username} type="email" name="username" id="username" placeholder='Email id' />
         </div>
         <div>
           <MdLock />
@@ -42,19 +66,14 @@ function Login() {
         </div>
 
         <div>
-          <FaUserAlt />
-          <input onChange={handleChange} value={userData.user_id} type="textd" name="user_id" id="user_id" placeholder='user id' />
-        </div>
-
-        <div>
           <input  onChange={handleChange}  type="checkbox" name='checkbox' /> <span>keep me logged in</span>
         </div>
         <div className='btn-container'>
-          <button>Login</button>
-          <button onClick={(e) => loginWithRedirect()}>
+          <button onClick={postData}><Link >Log in</Link></button>
+          {/* <button onClick={(e) => loginWithRedirect()}>
                       Continue with Google
 
-                  </button>
+                  </button> */}
          
 
         </div>
