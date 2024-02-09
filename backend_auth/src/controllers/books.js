@@ -32,8 +32,8 @@ let handleSetBooks = (req, res) => {
 
        //change is column name closed/08-02-2024.
 
-       let query = ` INSERT INTO add_books (user_id, book_id,book_name) 
-        VALUES("${data.user_id}","${data.book_id}", "${data.book_name}")
+       let query = ` INSERT INTO add_books (user_id, book_id) 
+        VALUES("${data.user_id}","${data.book_id}")
         `
        connection.query(query, (err, results) => {
            if (err) {
