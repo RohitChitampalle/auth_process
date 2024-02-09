@@ -15,6 +15,28 @@ function User() {
     setSelectedOption(value)
 
   }
+  var postData = async () => {
+    try {
+
+      if (id === "") {
+        alert("Please enter username & password")
+      }
+      else {
+
+        // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`);
+
+        // console.log('Response User Book list:', response.data);
+        let response_data = response.data
+        setData(response_data)
+
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setTimeout(() => { setLoad(false) }, 2000); // Set loading to false when the request is complete, regardless of success or failure
+    }
+  }
 
   let addBook = async () => {
     try {
@@ -28,6 +50,7 @@ function User() {
       const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`,formData);
 
       console.log('Response User Book set to user:', response.data);
+      postData()
 
 
     } catch (error) {
@@ -43,28 +66,7 @@ function User() {
 
   useEffect(() => {
 
-    let postData = async () => {
-      try {
-
-        if (id === "") {
-          alert("Please enter username & password")
-        }
-        else {
-
-          // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-          const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`);
-
-          // console.log('Response User Book list:', response.data);
-          let response_data = response.data
-          setData(response_data)
-
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setTimeout(() => { setLoad(false) }, 2000); // Set loading to false when the request is complete, regardless of success or failure
-      }
-    }
+   
 
     let get_book_list = async () => {
       try {

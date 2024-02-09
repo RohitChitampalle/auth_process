@@ -41,8 +41,8 @@ function Login() {
         // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/user/login?username=${username}&password=${password}`);
 
-        console.log('Response:', response.data);
-        setData(response.data[0])
+        console.log('Response:', response.data[0].id);
+        setData(response.data[0].id)
         
       }
     } catch (error) {
@@ -50,6 +50,7 @@ function Login() {
     }
   }
   console.log(userData)
+  console.log(data)
 
   return (
     <>
@@ -71,7 +72,7 @@ function Login() {
           <input  onChange={handleChange}  type="checkbox" name='checkbox' /> <span>keep me logged in</span>
         </div>
         <div className='btn-container'>
-          <button onClick={postData}><Link to={state === true ? `/user/bookList/${data.id}` : "/login" }>Log in</Link></button>
+          <button onClick={postData}><Link to={state === true ? `/user/bookList/${data}` : "/login" }>Log in</Link></button>
           {/* <button onClick={(e) => loginWithRedirect()}>
                       Continue with Google
 
