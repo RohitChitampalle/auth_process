@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "../main.css"
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdToken } from "react-icons/md";
 import { MdLock } from "react-icons/md";
 // import { useAuth0 } from '@auth0/auth0-react';
 import { FaUserAlt } from 'react-icons/fa';
@@ -17,6 +17,7 @@ function Login() {
     username:"",
     password:"",
   })
+  
 
   let handleChange=(e)=>{
   let name=e.target.name;
@@ -41,8 +42,10 @@ function Login() {
         // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/user/login?username=${username}&password=${password}`);
 
-        console.log('Response:', response.data[0].id);
-        setData(response.data[0].id)
+        console.log('Response:', response.data);
+
+        setData(response.data.id)
+        localStorage.setItem("token",response.data.token)
         
       }
     } catch (error) {
@@ -72,7 +75,7 @@ function Login() {
           <input  onChange={handleChange}  type="checkbox" name='checkbox' /> <span>keep me logged in</span>
         </div>
         <div className='btn-container'>
-          <button onClick={postData}><Link to={state === true ? `/user/bookList/${data}` : "/login" }>Log in</Link></button>
+          <button onClick={postData}><Link to={state === true ? `/user/bookList/${data}` : "/login"}>Log in</Link></button>
           {/* <button onClick={(e) => loginWithRedirect()}>
                       Continue with Google
 

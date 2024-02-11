@@ -1,4 +1,5 @@
 const connection = require('../models/index')
+const jwt = require('jsonwebtoken');
 
 let handleGetAllUsers = (req, res) => {
     try {
@@ -78,28 +79,46 @@ let setUsers = (req, res) => {
     }
 }
 
-let userLogin=(req,res)=>{
-      try {
+let userLogin = (req, res) => {
+    try {
 
-          let username=req.query.username
-          let password = req.query.password
-          let query = ` SELECT id FROM sign_up where email ="${username}" and password ="${password}";`
-          connection.query(query, (err, results) => {
-              if (err) {
-                  return res.status(501).json([{
-                      "Error": err.sqlMessage
-                  }]);;
-              }
-              //    console.log('Query results:', results);
-              return res.status(201).json(results)
-          });
+        let username = req.query.username
+        let password = req.query.password
+        let query = ` SELECT id,username FROM sign_up where email ="${username}" and password ="${password}";`
+        connection.query(query, (err, results) => {
+            if (err) {
+                return res.status(501).json([{
+                    "Error": err.sqlMessage,
+                    message: 'Login failed'
+                }]);;
+            }
 
 
-      } catch (error) {
-          return [{
-              "Error": error
-          }]
-      }
+
+            if (results.length === 0) {
+                return res.status(401).json({
+                    message: 'Invalid credentials'
+                });
+            }
+
+            const user = results[0];
+            const token = jwt.sign({
+                id: user.id,
+                username: user.username
+            }, process.env.JWT_SECRET_KEY);
+
+            res.json({
+                "token": token,
+                "id": user.id
+            })
+        });
+
+
+    } catch (error) {
+        return [{
+            "Error": error
+        }]
+    }
 }
 
 let handleUserDeleteById = (req, res) => {
