@@ -1,7 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
+import LogOut from '../auth/LogOut';
 function User() {
+
+  const token=localStorage.getItem('token');
+  console.log(token)
   const [selectedOption, setSelectedOption] = useState('');
   let [load, setLoad] = useState(true)
   let [data, setData] = useState([])
@@ -15,7 +19,7 @@ function User() {
     setSelectedOption(value)
 
   }
-  var postData = async () => {
+  var getUserBookListById = async () => {
     try {
 
       if (id === "") {
@@ -24,10 +28,11 @@ function User() {
       else {
 
         // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`,{headers:{Authorization:token}});
 
-        // console.log('Response User Book list:', response.data);
+        console.log('Response User Book list:', response.data);
         let response_data = response.data
+        // console.log()
         setData(response_data)
 
       }
@@ -47,10 +52,10 @@ function User() {
 
 
       // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-      const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`,formData);
+      const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`,formData,{headers:{Authorization:token}});
 
       console.log('Response User Book set to user:', response.data);
-      postData()
+      getUserBookListById()
 
 
     } catch (error) {
@@ -71,7 +76,7 @@ function User() {
     let get_book_list = async () => {
       try {
         // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/book_list`);
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/book_list`,{headers:{Authorization:token}});
 
         // console.log('Response User Book list:', response.data);
         let response_data = response.data
@@ -84,7 +89,7 @@ function User() {
 
     }
 
-    postData()
+    getUserBookListById()
     get_book_list()
   }, [])
 
@@ -116,6 +121,9 @@ function User() {
 
             <button onClick={addBook}>add</button>
           </div>
+
+
+          <LogOut/>
         </>
       )}
     </>
