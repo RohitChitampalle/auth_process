@@ -4,6 +4,15 @@ const verifyToken = (req, res, next) => {
     const token = req.header('Authorization');
     console.log("backend token",token)
 
+
+//error handling 
+
+    if(token === undefined){
+         return res.status(401).json({
+             message: 'user is not present'
+         });
+    }
+
     if (!token) {
         return res.status(401).json({
             message: 'Unauthorized'
