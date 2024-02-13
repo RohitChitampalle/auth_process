@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import LogOut from '../auth/LogOut';
 function User() {
 
-  const token=localStorage.getItem('token');
+  const token = localStorage.getItem('token');
   console.log(token)
   const [selectedOption, setSelectedOption] = useState('');
   let [load, setLoad] = useState(true)
@@ -25,19 +25,31 @@ function User() {
       if (id === "") {
         alert("Please enter username & password")
       }
+      if (id === undefined) {
+        alert(`User id is ${id}`)
+      }
       else {
 
         // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`,{headers:{Authorization:token}});
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`, { headers: { Authorization: token } });
 
-        console.log('Response User Book list:', response.data);
+        console.log('Response User Book list:', response.data.message);
         let response_data = response.data
+
+        if (response_data === undefined) {
+          console.log("data is not present")
+        } else {
+
+          setData(response_data)
+        }
         // console.log()
-        setData(response_data)
 
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.log('Error:', error);
+      console.log('Error message:', error.response.data.message);
+
+
     } finally {
       setTimeout(() => { setLoad(false) }, 2000); // Set loading to false when the request is complete, regardless of success or failure
     }
@@ -52,7 +64,7 @@ function User() {
 
 
       // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-      const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`,formData,{headers:{Authorization:token}});
+      const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`, formData, { headers: { Authorization: token } });
 
       console.log('Response User Book set to user:', response.data);
       getUserBookListById()
@@ -71,12 +83,12 @@ function User() {
 
   useEffect(() => {
 
-   
+
 
     let get_book_list = async () => {
       try {
         // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
-        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/book_list`,{headers:{Authorization:token}});
+        const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/book_list`, { headers: { Authorization: token } });
 
         // console.log('Response User Book list:', response.data);
         let response_data = response.data
@@ -102,28 +114,49 @@ function User() {
       {load ? (<p>Loading..</p>) : (
 
         <>
-          <div>{data.map((d, i) => {
-            return (
-              <li key={i}>{d.book_name}</li>
-            )
-          })}</div>
+
+          {data === undefined ? <>
+
+            <div><h2> user data is not present</h2></div>
+          </> : <>
+            <div>{data.map((d, i) => {
+              return (
+                <li key={i}>{d.book_name}</li>
+              )
+            })}</div>
+          </>}
 
 
+
+
+          {/*------------error handling-----------  */}
+
+              {book_list === undefined?<>
+              
+                <div><h2> user data is not present</h2></div>
+
+              </>:<>
           <div>
             <select value={selectedOption} onChange={handlchange} id="">
 
               <option value="" disabled>Select Books..</option>
-              {book_list.map((list, index) => {
-                return (<>
-                  <option value={list.book_id}>{list.book_name}</option></>)
-              })}
+             
+              
+                  {book_list.map((list, index) => {
+                    return (<>
+                      <option value={list.book_id}>{list.book_name}</option></>)
+                  })}
             </select>
 
             <button onClick={addBook}>add</button>
           </div>
 
 
-          <LogOut/>
+          <LogOut />
+              </> }
+              
+
+             
         </>
       )}
     </>
