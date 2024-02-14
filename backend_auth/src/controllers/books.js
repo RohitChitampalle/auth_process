@@ -12,7 +12,6 @@ let handleGetAllBookList = (req, res) => {
                     "Error": err.sqlMessage
                 }]);
             }
-            //    console.log('Query results:', results);
             return res.status(201).json(results)
         });
 
@@ -48,7 +47,8 @@ let handleSetBooks = async (req, res) => {
 let handleGetBooksById = (req, res) => {
     try {
         let id = Number(req.params.id);
-        let query1 = `Select book_name from add_books where user_id= ${id}`
+        //change in query to get ibook_d
+        let query1 = `Select book_name,book_id from add_books where user_id= ${id}`
         connection.query(query1, (err, results) => {
             if (err) {
                 console.error('Error querying database:', err);
@@ -56,7 +56,6 @@ let handleGetBooksById = (req, res) => {
                     "Error": err.sqlMessage
                 }]);;
             }
-            //    console.log('Query results:', results);
             return res.status(201).json(results)
         });
 
@@ -69,9 +68,33 @@ let handleGetBooksById = (req, res) => {
 
 }
 
+let handleDeleteBookById = (req, res) => {
+    try {
+
+        let data = req.body;
+        let query1 = `Delete from add_books where user_id = ${data.user_id} and book_id = ${data.book_id}`
+        connection.query(query1, (err, results) => {
+            if (err) {
+                console.error('Error querying database:', err);
+                return res.status(501).json([{
+                    "Error": err.sqlMessage
+                }]);;
+            }
+            return res.status(201).json(results)
+        });
+
+    } catch (error) {
+        return [{
+            "Error": error
+        }]
+    }
+
+
+}
 
 module.exports = {
     handleGetAllBookList,
     handleGetBooksById,
-    handleSetBooks
+    handleSetBooks,
+    handleDeleteBookById
 }

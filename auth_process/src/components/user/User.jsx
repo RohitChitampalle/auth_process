@@ -30,7 +30,6 @@ function User() {
       }
       else {
 
-        // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`, { headers: { Authorization: token } });
 
         console.log('Response User Book list:', response.data.message);
@@ -63,7 +62,6 @@ function User() {
       formData.append("book_id", selectedOption)
 
 
-      // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
       const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`, formData, { headers: { Authorization: token } });
 
       console.log('Response User Book set to user:', response.data);
@@ -78,6 +76,24 @@ function User() {
   }
 
 
+  let delete_book = async (book_id) => {
+    try {
+
+      let formData = new FormData()
+      formData.append("user_id", parseInt(id))
+      formData.append("book_id", book_id)
+
+      const response = await fetch(`${process.env.REACT_APP_LOCAL_URL}/api/book/delete`,{method:"DELETE",headers:{'contenten-Type':'application/json'},body:formData});
+
+      console.log('After delete  response:', response.data);
+      getUserBookListById()
+
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+  }
 
 
 
@@ -87,7 +103,7 @@ function User() {
 
     let get_book_list = async () => {
       try {
-        // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
+      
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/book_list`, { headers: { Authorization: token } });
 
         // console.log('Response User Book list:', response.data);
@@ -120,8 +136,9 @@ function User() {
             <div><h2> user data is not present</h2></div>
           </> : <>
             <div>{data.map((d, i) => {
+              console.log("data id's", d.book_id)
               return (
-                <li key={i}>{d.book_name}</li>
+                <><li key={d.book_id}>{d.book_name}  <button onClick={() => { delete_book(d.book_id) }}>Delete </button></li> </>
               )
             })}</div>
           </>}
@@ -131,32 +148,32 @@ function User() {
 
           {/*------------error handling-----------  */}
 
-              {book_list === undefined?<>
-              
-                <div><h2> user data is not present</h2></div>
+          {book_list === undefined ? <>
 
-              </>:<>
-          <div>
-            <select value={selectedOption} onChange={handlchange} id="">
+            <div><h2> user data is not present</h2></div>
 
-              <option value="" disabled>Select Books..</option>
-             
-              
-                  {book_list.map((list, index) => {
-                    return (<>
-                      <option value={list.book_id}>{list.book_name}</option></>)
-                  })}
-            </select>
+          </> : <>
+            <div>
+              <select value={selectedOption} onChange={handlchange} id="">
 
-            <button onClick={addBook}>add</button>
-          </div>
+                <option value="" disabled>Select Books..</option>
 
 
-          <LogOut />
-              </> }
-              
+                {book_list.map((list, index) => {
+                  return (<>
+                    <option value={list.book_id}>{list.book_name}</option></>)
+                })}
+              </select>
 
-             
+              <button onClick={addBook}>add</button>
+            </div>
+
+
+            <LogOut />
+          </>}
+
+
+
         </>
       )}
     </>
