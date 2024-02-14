@@ -2,7 +2,7 @@ const express = require("express")
 const cors = require('cors');
 const dotenv = require('dotenv')
 
-const port = 8011;
+const port = 8000;
 
 //db connection 
 
@@ -16,7 +16,6 @@ const bookRouter=require("./routes/book")
 const app = express()
 
 //Middleware - Plugin
-// app.use(formidable());
 app.use(cors());
 
 
