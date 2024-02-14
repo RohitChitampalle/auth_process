@@ -30,7 +30,6 @@ function User() {
       }
       else {
 
-        // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/user/bookList/${id}`, { headers: { Authorization: token } });
 
         console.log('Response User Book list:', response.data.message);
@@ -63,7 +62,6 @@ function User() {
       formData.append("book_id", selectedOption)
 
 
-      // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
       const response = await axios.post(`${process.env.REACT_APP_LOCAL_URL}/api/book/set/user/books`, formData, { headers: { Authorization: token } });
 
       console.log('Response User Book set to user:', response.data);
@@ -85,8 +83,6 @@ function User() {
       formData.append("user_id", parseInt(id))
       formData.append("book_id", book_id)
 
-
-      // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
       const response = await fetch(`${process.env.REACT_APP_LOCAL_URL}/api/book/delete`,{method:"DELETE",headers:{'contenten-Type':'application/json'},body:formData});
 
       console.log('After delete  response:', response.data);
@@ -107,7 +103,7 @@ function User() {
 
     let get_book_list = async () => {
       try {
-        // http://localhost:8011/api/user/login?username=chitampalle813@gmail.com&password=ramnam
+      
         const response = await axios.get(`${process.env.REACT_APP_LOCAL_URL}/api/book/book_list`, { headers: { Authorization: token } });
 
         // console.log('Response User Book list:', response.data);
