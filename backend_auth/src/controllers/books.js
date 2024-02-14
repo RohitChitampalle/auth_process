@@ -12,7 +12,6 @@ let handleGetAllBookList = (req, res) => {
                     "Error": err.sqlMessage
                 }]);
             }
-            //    console.log('Query results:', results);
             return res.status(201).json(results)
         });
 
@@ -57,7 +56,6 @@ let handleGetBooksById = (req, res) => {
                     "Error": err.sqlMessage
                 }]);;
             }
-            //    console.log('Query results:', results);
             return res.status(201).json(results)
         });
 
@@ -72,10 +70,8 @@ let handleGetBooksById = (req, res) => {
 
 let handleDeleteBookById = (req, res) => {
     try {
-        
-        let data= req.body;
-        console.log(req)
-        console.log("Delete data",data)
+
+        let data = req.body;
         let query1 = `Delete from add_books where user_id = ${data.user_id} and book_id = ${data.book_id}`
         connection.query(query1, (err, results) => {
             if (err) {
@@ -84,7 +80,6 @@ let handleDeleteBookById = (req, res) => {
                     "Error": err.sqlMessage
                 }]);;
             }
-               console.log('Query results:', results);
             return res.status(201).json(results)
         });
 
